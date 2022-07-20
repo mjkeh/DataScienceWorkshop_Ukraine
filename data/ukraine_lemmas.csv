@@ -1,0 +1,2954 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "38102d51",
+   "metadata": {},
+   "source": [
+    "# Data Science for Social Justice Workshop Group Project: Ukraine\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "da1b7dea",
+   "metadata": {},
+   "source": [
+    "## 1. Preprocessing"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b8addebb",
+   "metadata": {},
+   "source": [
+    "### 1-1. Importing Data with pandas"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "e4b6d530-f95c-40f1-8524-9c15d99a86cc",
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'/home/jovyan/Data-Science-Social-Justice'"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "%pwd ##it will be different for all"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "fbafc694-fd59-40ee-af9c-f872850acc51",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "d7d422be",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "os.chdir('data') ##it will be different for all"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "0f92a399-4457-4235-a939-2981f2d77d3d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "7167182c-c93f-4ce5-b175-f9f25142ddd8",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df = pd.read_csv('submissions.csv')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "90c57649-1694-453d-9f34-3512c7a49618",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(88764, 18)"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.shape"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "3649eed0-ca67-4470-93a7-0d1bf100210f",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['idint',\n",
+       " 'idstr',\n",
+       " 'created',\n",
+       " 'self',\n",
+       " 'nsfw',\n",
+       " 'author',\n",
+       " 'title',\n",
+       " 'url',\n",
+       " 'selftext',\n",
+       " 'score',\n",
+       " 'subreddit',\n",
+       " 'distinguish',\n",
+       " 'textlen',\n",
+       " 'num_comments',\n",
+       " 'flair_text',\n",
+       " 'flair_css_class',\n",
+       " 'augmented_at',\n",
+       " 'augmented_count']"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# 18 variables\n",
+    "list (df)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "00e4b1c6-6236-4b12-8e6d-e6bdeecb9c31",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>idint</th>\n",
+       "      <th>idstr</th>\n",
+       "      <th>created</th>\n",
+       "      <th>self</th>\n",
+       "      <th>nsfw</th>\n",
+       "      <th>author</th>\n",
+       "      <th>title</th>\n",
+       "      <th>url</th>\n",
+       "      <th>selftext</th>\n",
+       "      <th>score</th>\n",
+       "      <th>subreddit</th>\n",
+       "      <th>distinguish</th>\n",
+       "      <th>textlen</th>\n",
+       "      <th>num_comments</th>\n",
+       "      <th>flair_text</th>\n",
+       "      <th>flair_css_class</th>\n",
+       "      <th>augmented_at</th>\n",
+       "      <th>augmented_count</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>13054757</td>\n",
+       "      <td>t3_7rt45</td>\n",
+       "      <td>1232688225</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>nikitos2009</td>\n",
+       "      <td>Лучший политический ресурс в Украине</td>\n",
+       "      <td>http://pepper.at.ua/</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>ukraine</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>13072291</td>\n",
+       "      <td>t3_7s6n7</td>\n",
+       "      <td>1232834472</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>OlehM</td>\n",
+       "      <td>Dr</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>[removed]</td>\n",
+       "      <td>1</td>\n",
+       "      <td>ukraine</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>9</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>13093545</td>\n",
+       "      <td>t3_7sn1l</td>\n",
+       "      <td>1233019738</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>nikitos2009</td>\n",
+       "      <td>Основы гармонии украинства с московством</td>\n",
+       "      <td>http://pepper.at.ua/publ/8-1-0-30</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1</td>\n",
+       "      <td>ukraine</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>13118896</td>\n",
+       "      <td>t3_7t6ls</td>\n",
+       "      <td>1233182615</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>nikitos2009</td>\n",
+       "      <td>Служба Бандеризации Украины выясняет кто убил ...</td>\n",
+       "      <td>http://pepper.at.ua/publ/8-1-0-34</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1</td>\n",
+       "      <td>ukraine</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>13238506</td>\n",
+       "      <td>t3_7vqwa</td>\n",
+       "      <td>1234081946</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>ger4antche</td>\n",
+       "      <td>amzek.blogspot.com</td>\n",
+       "      <td>http://amzek.blogspot.com</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>ukraine</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "      idint     idstr     created  self  nsfw       author  \\\n",
+       "0  13054757  t3_7rt45  1232688225     0     0  nikitos2009   \n",
+       "1  13072291  t3_7s6n7  1232834472     1     0        OlehM   \n",
+       "2  13093545  t3_7sn1l  1233019738     0     0  nikitos2009   \n",
+       "3  13118896  t3_7t6ls  1233182615     0     0  nikitos2009   \n",
+       "4  13238506  t3_7vqwa  1234081946     0     0   ger4antche   \n",
+       "\n",
+       "                                               title  \\\n",
+       "0               Лучший политический ресурс в Украине   \n",
+       "1                                                 Dr   \n",
+       "2           Основы гармонии украинства с московством   \n",
+       "3  Служба Бандеризации Украины выясняет кто убил ...   \n",
+       "4                                 amzek.blogspot.com   \n",
+       "\n",
+       "                                 url   selftext  score subreddit distinguish  \\\n",
+       "0               http://pepper.at.ua/        NaN      0   ukraine         NaN   \n",
+       "1                                NaN  [removed]      1   ukraine         NaN   \n",
+       "2  http://pepper.at.ua/publ/8-1-0-30        NaN      1   ukraine         NaN   \n",
+       "3  http://pepper.at.ua/publ/8-1-0-34        NaN      1   ukraine         NaN   \n",
+       "4          http://amzek.blogspot.com        NaN      0   ukraine         NaN   \n",
+       "\n",
+       "   textlen  num_comments flair_text flair_css_class  augmented_at  \\\n",
+       "0        0             0        NaN             NaN           NaN   \n",
+       "1        9             0        NaN             NaN           NaN   \n",
+       "2        0             0        NaN             NaN           NaN   \n",
+       "3        0             0        NaN             NaN           NaN   \n",
+       "4        0             1        NaN             NaN           NaN   \n",
+       "\n",
+       "   augmented_count  \n",
+       "0              NaN  \n",
+       "1              NaN  \n",
+       "2              NaN  \n",
+       "3              NaN  \n",
+       "4              NaN  "
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e8a3a019",
+   "metadata": {},
+   "source": [
+    "### 1-2. Dropping Columns and Missing Values"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "6020d763-032a-488b-93ee-2c9b767bdb5d",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>idint</th>\n",
+       "      <th>idstr</th>\n",
+       "      <th>created</th>\n",
+       "      <th>nsfw</th>\n",
+       "      <th>author</th>\n",
+       "      <th>title</th>\n",
+       "      <th>selftext</th>\n",
+       "      <th>score</th>\n",
+       "      <th>distinguish</th>\n",
+       "      <th>textlen</th>\n",
+       "      <th>num_comments</th>\n",
+       "      <th>flair_text</th>\n",
+       "      <th>flair_css_class</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>13054757</td>\n",
+       "      <td>t3_7rt45</td>\n",
+       "      <td>1232688225</td>\n",
+       "      <td>0</td>\n",
+       "      <td>nikitos2009</td>\n",
+       "      <td>Лучший политический ресурс в Украине</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>13072291</td>\n",
+       "      <td>t3_7s6n7</td>\n",
+       "      <td>1232834472</td>\n",
+       "      <td>0</td>\n",
+       "      <td>OlehM</td>\n",
+       "      <td>Dr</td>\n",
+       "      <td>[removed]</td>\n",
+       "      <td>1</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>9</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>13093545</td>\n",
+       "      <td>t3_7sn1l</td>\n",
+       "      <td>1233019738</td>\n",
+       "      <td>0</td>\n",
+       "      <td>nikitos2009</td>\n",
+       "      <td>Основы гармонии украинства с московством</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>13118896</td>\n",
+       "      <td>t3_7t6ls</td>\n",
+       "      <td>1233182615</td>\n",
+       "      <td>0</td>\n",
+       "      <td>nikitos2009</td>\n",
+       "      <td>Служба Бандеризации Украины выясняет кто убил ...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>13238506</td>\n",
+       "      <td>t3_7vqwa</td>\n",
+       "      <td>1234081946</td>\n",
+       "      <td>0</td>\n",
+       "      <td>ger4antche</td>\n",
+       "      <td>amzek.blogspot.com</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "      idint     idstr     created  nsfw       author  \\\n",
+       "0  13054757  t3_7rt45  1232688225     0  nikitos2009   \n",
+       "1  13072291  t3_7s6n7  1232834472     0        OlehM   \n",
+       "2  13093545  t3_7sn1l  1233019738     0  nikitos2009   \n",
+       "3  13118896  t3_7t6ls  1233182615     0  nikitos2009   \n",
+       "4  13238506  t3_7vqwa  1234081946     0   ger4antche   \n",
+       "\n",
+       "                                               title   selftext  score  \\\n",
+       "0               Лучший политический ресурс в Украине        NaN      0   \n",
+       "1                                                 Dr  [removed]      1   \n",
+       "2           Основы гармонии украинства с московством        NaN      1   \n",
+       "3  Служба Бандеризации Украины выясняет кто убил ...        NaN      1   \n",
+       "4                                 amzek.blogspot.com        NaN      0   \n",
+       "\n",
+       "  distinguish  textlen  num_comments flair_text flair_css_class  \n",
+       "0         NaN        0             0        NaN             NaN  \n",
+       "1         NaN        9             0        NaN             NaN  \n",
+       "2         NaN        0             0        NaN             NaN  \n",
+       "3         NaN        0             0        NaN             NaN  \n",
+       "4         NaN        0             1        NaN             NaN  "
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "##remove some columns that we are not going to use\n",
+    "\n",
+    "df = df.drop(['self', 'url', 'subreddit', 'augmented_at', 'augmented_count'], axis=1)\n",
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "f58de402-9727-4941-8f00-769cdc4b8699",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(73414, 13)"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "##get rid of posts that have been deleted/removed\n",
+    "\n",
+    "df = df.loc[~df['selftext'].isin(['[removed]', '[deleted]' ]),:]\n",
+    "df.shape"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "ce43e9a1-be78-413f-b7a0-05835e4bce69",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(16665, 13)"
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "## drop null values\n",
+    "df = df.dropna(subset=['selftext'])\n",
+    "df.shape"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "3b517ff5",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>idint</th>\n",
+       "      <th>idstr</th>\n",
+       "      <th>created</th>\n",
+       "      <th>nsfw</th>\n",
+       "      <th>author</th>\n",
+       "      <th>title</th>\n",
+       "      <th>selftext</th>\n",
+       "      <th>score</th>\n",
+       "      <th>distinguish</th>\n",
+       "      <th>textlen</th>\n",
+       "      <th>num_comments</th>\n",
+       "      <th>flair_text</th>\n",
+       "      <th>flair_css_class</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>35</th>\n",
+       "      <td>26781072</td>\n",
+       "      <td>t3_fy0eo</td>\n",
+       "      <td>1299351508</td>\n",
+       "      <td>0</td>\n",
+       "      <td>margys</td>\n",
+       "      <td>Мам, а когда я выросту, ты постареешь?...</td>\n",
+       "      <td>Сегодня моя золотая птичка снова задалась вопр...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>204</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>36</th>\n",
+       "      <td>26795140</td>\n",
+       "      <td>t3_fyb9g</td>\n",
+       "      <td>1299397232</td>\n",
+       "      <td>0</td>\n",
+       "      <td>pozhaluista</td>\n",
+       "      <td>Does the /r/ Ukraine have anyone here? Hello?</td>\n",
+       "      <td>Seems quiet.</td>\n",
+       "      <td>10</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>13</td>\n",
+       "      <td>24</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>50</th>\n",
+       "      <td>29482904</td>\n",
+       "      <td>t3_hjx5k</td>\n",
+       "      <td>1306343697</td>\n",
+       "      <td>0</td>\n",
+       "      <td>visarun</td>\n",
+       "      <td>Does immigration in Simferpol check whether th...</td>\n",
+       "      <td>I have stayed 70 days and then 80 days out of ...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>223</td>\n",
+       "      <td>1</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>51</th>\n",
+       "      <td>29608809</td>\n",
+       "      <td>t3_hmmax</td>\n",
+       "      <td>1306639850</td>\n",
+       "      <td>0</td>\n",
+       "      <td>[deleted]</td>\n",
+       "      <td>Tickets to Ukraine from Seoul?</td>\n",
+       "      <td>Hi everyone.  I'd like to visit Ukraine for th...</td>\n",
+       "      <td>2</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>281</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>62</th>\n",
+       "      <td>33263382</td>\n",
+       "      <td>t3_jsy6u</td>\n",
+       "      <td>1314200067</td>\n",
+       "      <td>0</td>\n",
+       "      <td>lsakbaetle3r9</td>\n",
+       "      <td>looking for someone</td>\n",
+       "      <td>had a friend who moved to my town ~4-5 years a...</td>\n",
+       "      <td>3</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>386</td>\n",
+       "      <td>1</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "       idint     idstr     created  nsfw         author  \\\n",
+       "35  26781072  t3_fy0eo  1299351508     0         margys   \n",
+       "36  26795140  t3_fyb9g  1299397232     0    pozhaluista   \n",
+       "50  29482904  t3_hjx5k  1306343697     0        visarun   \n",
+       "51  29608809  t3_hmmax  1306639850     0      [deleted]   \n",
+       "62  33263382  t3_jsy6u  1314200067     0  lsakbaetle3r9   \n",
+       "\n",
+       "                                                title  \\\n",
+       "35         Мам, а когда я выросту, ты постареешь?...    \n",
+       "36      Does the /r/ Ukraine have anyone here? Hello?   \n",
+       "50  Does immigration in Simferpol check whether th...   \n",
+       "51                     Tickets to Ukraine from Seoul?   \n",
+       "62                                looking for someone   \n",
+       "\n",
+       "                                             selftext  score distinguish  \\\n",
+       "35  Сегодня моя золотая птичка снова задалась вопр...      0         NaN   \n",
+       "36                                      Seems quiet.      10         NaN   \n",
+       "50  I have stayed 70 days and then 80 days out of ...      0         NaN   \n",
+       "51  Hi everyone.  I'd like to visit Ukraine for th...      2         NaN   \n",
+       "62  had a friend who moved to my town ~4-5 years a...      3         NaN   \n",
+       "\n",
+       "    textlen  num_comments flair_text flair_css_class  \n",
+       "35      204             0        NaN             NaN  \n",
+       "36       13            24        NaN             NaN  \n",
+       "50      223             1        NaN             NaN  \n",
+       "51      281             0        NaN             NaN  \n",
+       "62      386             1        NaN             NaN  "
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "f126981c",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Processing /home/jovyan/.cache/pip/wheels/d1/c1/d9/7e068de779d863bc8f8fc9467d85e25cfe47fa5051fff1a1bb/langdetect-1.0.9-py3-none-any.whl\n",
+      "Requirement already satisfied: six in /opt/conda/lib/python3.9/site-packages (from langdetect) (1.16.0)\n",
+      "Installing collected packages: langdetect\n",
+      "Successfully installed langdetect-1.0.9\n"
+     ]
+    }
+   ],
+   "source": [
+    "##remove the rows with non-enlish text\n",
+    "!pip install langdetect\n",
+    "from langdetect import detect\n",
+    "df['detect'] = detect(str(df['selftext']))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "885b7ff2",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>idint</th>\n",
+       "      <th>idstr</th>\n",
+       "      <th>created</th>\n",
+       "      <th>nsfw</th>\n",
+       "      <th>author</th>\n",
+       "      <th>title</th>\n",
+       "      <th>selftext</th>\n",
+       "      <th>score</th>\n",
+       "      <th>distinguish</th>\n",
+       "      <th>textlen</th>\n",
+       "      <th>num_comments</th>\n",
+       "      <th>flair_text</th>\n",
+       "      <th>flair_css_class</th>\n",
+       "      <th>detect</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>35</th>\n",
+       "      <td>26781072</td>\n",
+       "      <td>t3_fy0eo</td>\n",
+       "      <td>1299351508</td>\n",
+       "      <td>0</td>\n",
+       "      <td>margys</td>\n",
+       "      <td>Мам, а когда я выросту, ты постареешь?...</td>\n",
+       "      <td>Сегодня моя золотая птичка снова задалась вопр...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>204</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>36</th>\n",
+       "      <td>26795140</td>\n",
+       "      <td>t3_fyb9g</td>\n",
+       "      <td>1299397232</td>\n",
+       "      <td>0</td>\n",
+       "      <td>pozhaluista</td>\n",
+       "      <td>Does the /r/ Ukraine have anyone here? Hello?</td>\n",
+       "      <td>Seems quiet.</td>\n",
+       "      <td>10</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>13</td>\n",
+       "      <td>24</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>50</th>\n",
+       "      <td>29482904</td>\n",
+       "      <td>t3_hjx5k</td>\n",
+       "      <td>1306343697</td>\n",
+       "      <td>0</td>\n",
+       "      <td>visarun</td>\n",
+       "      <td>Does immigration in Simferpol check whether th...</td>\n",
+       "      <td>I have stayed 70 days and then 80 days out of ...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>223</td>\n",
+       "      <td>1</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>51</th>\n",
+       "      <td>29608809</td>\n",
+       "      <td>t3_hmmax</td>\n",
+       "      <td>1306639850</td>\n",
+       "      <td>0</td>\n",
+       "      <td>[deleted]</td>\n",
+       "      <td>Tickets to Ukraine from Seoul?</td>\n",
+       "      <td>Hi everyone.  I'd like to visit Ukraine for th...</td>\n",
+       "      <td>2</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>281</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>62</th>\n",
+       "      <td>33263382</td>\n",
+       "      <td>t3_jsy6u</td>\n",
+       "      <td>1314200067</td>\n",
+       "      <td>0</td>\n",
+       "      <td>lsakbaetle3r9</td>\n",
+       "      <td>looking for someone</td>\n",
+       "      <td>had a friend who moved to my town ~4-5 years a...</td>\n",
+       "      <td>3</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>386</td>\n",
+       "      <td>1</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "       idint     idstr     created  nsfw         author  \\\n",
+       "35  26781072  t3_fy0eo  1299351508     0         margys   \n",
+       "36  26795140  t3_fyb9g  1299397232     0    pozhaluista   \n",
+       "50  29482904  t3_hjx5k  1306343697     0        visarun   \n",
+       "51  29608809  t3_hmmax  1306639850     0      [deleted]   \n",
+       "62  33263382  t3_jsy6u  1314200067     0  lsakbaetle3r9   \n",
+       "\n",
+       "                                                title  \\\n",
+       "35         Мам, а когда я выросту, ты постареешь?...    \n",
+       "36      Does the /r/ Ukraine have anyone here? Hello?   \n",
+       "50  Does immigration in Simferpol check whether th...   \n",
+       "51                     Tickets to Ukraine from Seoul?   \n",
+       "62                                looking for someone   \n",
+       "\n",
+       "                                             selftext  score distinguish  \\\n",
+       "35  Сегодня моя золотая птичка снова задалась вопр...      0         NaN   \n",
+       "36                                      Seems quiet.      10         NaN   \n",
+       "50  I have stayed 70 days and then 80 days out of ...      0         NaN   \n",
+       "51  Hi everyone.  I'd like to visit Ukraine for th...      2         NaN   \n",
+       "62  had a friend who moved to my town ~4-5 years a...      3         NaN   \n",
+       "\n",
+       "    textlen  num_comments flair_text flair_css_class detect  \n",
+       "35      204             0        NaN             NaN     en  \n",
+       "36       13            24        NaN             NaN     en  \n",
+       "50      223             1        NaN             NaN     en  \n",
+       "51      281             0        NaN             NaN     en  \n",
+       "62      386             1        NaN             NaN     en  "
+      ]
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "35800ab1",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df = df[df['detect'] == 'en']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "82973954",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(16665, 14)"
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.shape"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b174a7b4",
+   "metadata": {},
+   "source": [
+    "### MJ: Q. The command above did not give correct results e.g., the first row is in Russian, but the detect column says it is English. It is why the dataframe still have 16665 rows. So I tried the command below, but encountered error. I just moved on to next steps. We can apply the language detection codes later and run the notebook again:)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "7d96d51e",
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "LangDetectException",
+     "evalue": "No features in text.",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mLangDetectException\u001b[0m                       Traceback (most recent call last)",
+      "Input \u001b[0;32mIn [18]\u001b[0m, in \u001b[0;36m<cell line: 1>\u001b[0;34m()\u001b[0m\n\u001b[0;32m----> 1\u001b[0m df[\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mdetect2\u001b[39m\u001b[38;5;124m'\u001b[39m] \u001b[38;5;241m=\u001b[39m \u001b[43mdf\u001b[49m\u001b[43m[\u001b[49m\u001b[38;5;124;43m'\u001b[39;49m\u001b[38;5;124;43mselftext\u001b[39;49m\u001b[38;5;124;43m'\u001b[39;49m\u001b[43m]\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mapply\u001b[49m\u001b[43m(\u001b[49m\u001b[43mdetect\u001b[49m\u001b[43m)\u001b[49m\n",
+      "File \u001b[0;32m/opt/conda/lib/python3.9/site-packages/pandas/core/series.py:4357\u001b[0m, in \u001b[0;36mSeries.apply\u001b[0;34m(self, func, convert_dtype, args, **kwargs)\u001b[0m\n\u001b[1;32m   4247\u001b[0m \u001b[38;5;28;01mdef\u001b[39;00m \u001b[38;5;21mapply\u001b[39m(\n\u001b[1;32m   4248\u001b[0m     \u001b[38;5;28mself\u001b[39m,\n\u001b[1;32m   4249\u001b[0m     func: AggFuncType,\n\u001b[0;32m   (...)\u001b[0m\n\u001b[1;32m   4252\u001b[0m     \u001b[38;5;241m*\u001b[39m\u001b[38;5;241m*\u001b[39mkwargs,\n\u001b[1;32m   4253\u001b[0m ) \u001b[38;5;241m-\u001b[39m\u001b[38;5;241m>\u001b[39m FrameOrSeriesUnion:\n\u001b[1;32m   4254\u001b[0m     \u001b[38;5;124;03m\"\"\"\u001b[39;00m\n\u001b[1;32m   4255\u001b[0m \u001b[38;5;124;03m    Invoke function on values of Series.\u001b[39;00m\n\u001b[1;32m   4256\u001b[0m \n\u001b[0;32m   (...)\u001b[0m\n\u001b[1;32m   4355\u001b[0m \u001b[38;5;124;03m    dtype: float64\u001b[39;00m\n\u001b[1;32m   4356\u001b[0m \u001b[38;5;124;03m    \"\"\"\u001b[39;00m\n\u001b[0;32m-> 4357\u001b[0m     \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[43mSeriesApply\u001b[49m\u001b[43m(\u001b[49m\u001b[38;5;28;43mself\u001b[39;49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mfunc\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mconvert_dtype\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43margs\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mkwargs\u001b[49m\u001b[43m)\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mapply\u001b[49m\u001b[43m(\u001b[49m\u001b[43m)\u001b[49m\n",
+      "File \u001b[0;32m/opt/conda/lib/python3.9/site-packages/pandas/core/apply.py:1043\u001b[0m, in \u001b[0;36mSeriesApply.apply\u001b[0;34m(self)\u001b[0m\n\u001b[1;32m   1039\u001b[0m \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;28misinstance\u001b[39m(\u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mf, \u001b[38;5;28mstr\u001b[39m):\n\u001b[1;32m   1040\u001b[0m     \u001b[38;5;66;03m# if we are a string, try to dispatch\u001b[39;00m\n\u001b[1;32m   1041\u001b[0m     \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mapply_str()\n\u001b[0;32m-> 1043\u001b[0m \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mapply_standard\u001b[49m\u001b[43m(\u001b[49m\u001b[43m)\u001b[49m\n",
+      "File \u001b[0;32m/opt/conda/lib/python3.9/site-packages/pandas/core/apply.py:1098\u001b[0m, in \u001b[0;36mSeriesApply.apply_standard\u001b[0;34m(self)\u001b[0m\n\u001b[1;32m   1092\u001b[0m         values \u001b[38;5;241m=\u001b[39m obj\u001b[38;5;241m.\u001b[39mastype(\u001b[38;5;28mobject\u001b[39m)\u001b[38;5;241m.\u001b[39m_values\n\u001b[1;32m   1093\u001b[0m         \u001b[38;5;66;03m# error: Argument 2 to \"map_infer\" has incompatible type\u001b[39;00m\n\u001b[1;32m   1094\u001b[0m         \u001b[38;5;66;03m# \"Union[Callable[..., Any], str, List[Union[Callable[..., Any], str]],\u001b[39;00m\n\u001b[1;32m   1095\u001b[0m         \u001b[38;5;66;03m# Dict[Hashable, Union[Union[Callable[..., Any], str],\u001b[39;00m\n\u001b[1;32m   1096\u001b[0m         \u001b[38;5;66;03m# List[Union[Callable[..., Any], str]]]]]\"; expected\u001b[39;00m\n\u001b[1;32m   1097\u001b[0m         \u001b[38;5;66;03m# \"Callable[[Any], Any]\"\u001b[39;00m\n\u001b[0;32m-> 1098\u001b[0m         mapped \u001b[38;5;241m=\u001b[39m \u001b[43mlib\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mmap_infer\u001b[49m\u001b[43m(\u001b[49m\n\u001b[1;32m   1099\u001b[0m \u001b[43m            \u001b[49m\u001b[43mvalues\u001b[49m\u001b[43m,\u001b[49m\n\u001b[1;32m   1100\u001b[0m \u001b[43m            \u001b[49m\u001b[43mf\u001b[49m\u001b[43m,\u001b[49m\u001b[43m  \u001b[49m\u001b[38;5;66;43;03m# type: ignore[arg-type]\u001b[39;49;00m\n\u001b[1;32m   1101\u001b[0m \u001b[43m            \u001b[49m\u001b[43mconvert\u001b[49m\u001b[38;5;241;43m=\u001b[39;49m\u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mconvert_dtype\u001b[49m\u001b[43m,\u001b[49m\n\u001b[1;32m   1102\u001b[0m \u001b[43m        \u001b[49m\u001b[43m)\u001b[49m\n\u001b[1;32m   1104\u001b[0m \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;28mlen\u001b[39m(mapped) \u001b[38;5;129;01mand\u001b[39;00m \u001b[38;5;28misinstance\u001b[39m(mapped[\u001b[38;5;241m0\u001b[39m], ABCSeries):\n\u001b[1;32m   1105\u001b[0m     \u001b[38;5;66;03m# GH 25959 use pd.array instead of tolist\u001b[39;00m\n\u001b[1;32m   1106\u001b[0m     \u001b[38;5;66;03m# so extension arrays can be used\u001b[39;00m\n\u001b[1;32m   1107\u001b[0m     \u001b[38;5;28;01mreturn\u001b[39;00m obj\u001b[38;5;241m.\u001b[39m_constructor_expanddim(pd_array(mapped), index\u001b[38;5;241m=\u001b[39mobj\u001b[38;5;241m.\u001b[39mindex)\n",
+      "File \u001b[0;32m/opt/conda/lib/python3.9/site-packages/pandas/_libs/lib.pyx:2859\u001b[0m, in \u001b[0;36mpandas._libs.lib.map_infer\u001b[0;34m()\u001b[0m\n",
+      "File \u001b[0;32m/opt/conda/lib/python3.9/site-packages/langdetect/detector_factory.py:130\u001b[0m, in \u001b[0;36mdetect\u001b[0;34m(text)\u001b[0m\n\u001b[1;32m    128\u001b[0m detector \u001b[38;5;241m=\u001b[39m _factory\u001b[38;5;241m.\u001b[39mcreate()\n\u001b[1;32m    129\u001b[0m detector\u001b[38;5;241m.\u001b[39mappend(text)\n\u001b[0;32m--> 130\u001b[0m \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[43mdetector\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mdetect\u001b[49m\u001b[43m(\u001b[49m\u001b[43m)\u001b[49m\n",
+      "File \u001b[0;32m/opt/conda/lib/python3.9/site-packages/langdetect/detector.py:136\u001b[0m, in \u001b[0;36mDetector.detect\u001b[0;34m(self)\u001b[0m\n\u001b[1;32m    132\u001b[0m \u001b[38;5;28;01mdef\u001b[39;00m \u001b[38;5;21mdetect\u001b[39m(\u001b[38;5;28mself\u001b[39m):\n\u001b[1;32m    133\u001b[0m     \u001b[38;5;124;03m'''Detect language of the target text and return the language name\u001b[39;00m\n\u001b[1;32m    134\u001b[0m \u001b[38;5;124;03m    which has the highest probability.\u001b[39;00m\n\u001b[1;32m    135\u001b[0m \u001b[38;5;124;03m    '''\u001b[39;00m\n\u001b[0;32m--> 136\u001b[0m     probabilities \u001b[38;5;241m=\u001b[39m \u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mget_probabilities\u001b[49m\u001b[43m(\u001b[49m\u001b[43m)\u001b[49m\n\u001b[1;32m    137\u001b[0m     \u001b[38;5;28;01mif\u001b[39;00m probabilities:\n\u001b[1;32m    138\u001b[0m         \u001b[38;5;28;01mreturn\u001b[39;00m probabilities[\u001b[38;5;241m0\u001b[39m]\u001b[38;5;241m.\u001b[39mlang\n",
+      "File \u001b[0;32m/opt/conda/lib/python3.9/site-packages/langdetect/detector.py:143\u001b[0m, in \u001b[0;36mDetector.get_probabilities\u001b[0;34m(self)\u001b[0m\n\u001b[1;32m    141\u001b[0m \u001b[38;5;28;01mdef\u001b[39;00m \u001b[38;5;21mget_probabilities\u001b[39m(\u001b[38;5;28mself\u001b[39m):\n\u001b[1;32m    142\u001b[0m     \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mlangprob \u001b[38;5;129;01mis\u001b[39;00m \u001b[38;5;28;01mNone\u001b[39;00m:\n\u001b[0;32m--> 143\u001b[0m         \u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43m_detect_block\u001b[49m\u001b[43m(\u001b[49m\u001b[43m)\u001b[49m\n\u001b[1;32m    144\u001b[0m     \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39m_sort_probability(\u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mlangprob)\n",
+      "File \u001b[0;32m/opt/conda/lib/python3.9/site-packages/langdetect/detector.py:150\u001b[0m, in \u001b[0;36mDetector._detect_block\u001b[0;34m(self)\u001b[0m\n\u001b[1;32m    148\u001b[0m ngrams \u001b[38;5;241m=\u001b[39m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39m_extract_ngrams()\n\u001b[1;32m    149\u001b[0m \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;129;01mnot\u001b[39;00m ngrams:\n\u001b[0;32m--> 150\u001b[0m     \u001b[38;5;28;01mraise\u001b[39;00m LangDetectException(ErrorCode\u001b[38;5;241m.\u001b[39mCantDetectError, \u001b[38;5;124m'\u001b[39m\u001b[38;5;124mNo features in text.\u001b[39m\u001b[38;5;124m'\u001b[39m)\n\u001b[1;32m    152\u001b[0m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mlangprob \u001b[38;5;241m=\u001b[39m [\u001b[38;5;241m0.0\u001b[39m] \u001b[38;5;241m*\u001b[39m \u001b[38;5;28mlen\u001b[39m(\u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mlanglist)\n\u001b[1;32m    154\u001b[0m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mrandom\u001b[38;5;241m.\u001b[39mseed(\u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mseed)\n",
+      "\u001b[0;31mLangDetectException\u001b[0m: No features in text."
+     ]
+    }
+   ],
+   "source": [
+    "df['detect2'] = df['selftext'].apply(detect) "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5a7482e5",
+   "metadata": {},
+   "source": [
+    "### 1-3. Cleaning Text Data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "48f15a8e-4dc2-4c70-8aeb-d6156d5a40c6",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: spacy in /opt/conda/lib/python3.9/site-packages (3.3.1)\n",
+      "Requirement already satisfied: setuptools in /opt/conda/lib/python3.9/site-packages (from spacy) (58.2.0)\n",
+      "Requirement already satisfied: spacy-loggers<2.0.0,>=1.0.0 in /opt/conda/lib/python3.9/site-packages (from spacy) (1.0.2)\n",
+      "Requirement already satisfied: catalogue<2.1.0,>=2.0.6 in /opt/conda/lib/python3.9/site-packages (from spacy) (2.0.6)\n",
+      "Requirement already satisfied: srsly<3.0.0,>=2.4.3 in /opt/conda/lib/python3.9/site-packages (from spacy) (2.4.3)\n",
+      "Requirement already satisfied: tqdm<5.0.0,>=4.38.0 in /opt/conda/lib/python3.9/site-packages (from spacy) (4.62.1)\n",
+      "Requirement already satisfied: langcodes<4.0.0,>=3.2.0 in /opt/conda/lib/python3.9/site-packages (from spacy) (3.3.0)\n",
+      "Requirement already satisfied: pydantic!=1.8,!=1.8.1,<1.9.0,>=1.7.4 in /opt/conda/lib/python3.9/site-packages (from spacy) (1.8.2)\n",
+      "Requirement already satisfied: spacy-legacy<3.1.0,>=3.0.9 in /opt/conda/lib/python3.9/site-packages (from spacy) (3.0.9)\n",
+      "Requirement already satisfied: murmurhash<1.1.0,>=0.28.0 in /opt/conda/lib/python3.9/site-packages (from spacy) (1.0.7)\n",
+      "Requirement already satisfied: jinja2 in /opt/conda/lib/python3.9/site-packages (from spacy) (3.1.2)\n",
+      "Requirement already satisfied: numpy>=1.15.0 in /opt/conda/lib/python3.9/site-packages (from spacy) (1.21.6)\n",
+      "Requirement already satisfied: typer<0.5.0,>=0.3.0 in /opt/conda/lib/python3.9/site-packages (from spacy) (0.4.1)\n",
+      "Requirement already satisfied: requests<3.0.0,>=2.13.0 in /opt/conda/lib/python3.9/site-packages (from spacy) (2.26.0)\n",
+      "Requirement already satisfied: pathy>=0.3.5 in /opt/conda/lib/python3.9/site-packages (from spacy) (0.6.1)\n",
+      "Requirement already satisfied: packaging>=20.0 in /opt/conda/lib/python3.9/site-packages (from spacy) (21.3)\n",
+      "Requirement already satisfied: preshed<3.1.0,>=3.0.2 in /opt/conda/lib/python3.9/site-packages (from spacy) (3.0.6)\n",
+      "Requirement already satisfied: cymem<2.1.0,>=2.0.2 in /opt/conda/lib/python3.9/site-packages (from spacy) (2.0.6)\n",
+      "Requirement already satisfied: thinc<8.1.0,>=8.0.14 in /opt/conda/lib/python3.9/site-packages (from spacy) (8.0.17)\n",
+      "Requirement already satisfied: wasabi<1.1.0,>=0.9.1 in /opt/conda/lib/python3.9/site-packages (from spacy) (0.9.1)\n",
+      "Requirement already satisfied: blis<0.8.0,>=0.4.0 in /opt/conda/lib/python3.9/site-packages (from spacy) (0.7.7)\n",
+      "Requirement already satisfied: typing-extensions>=3.7.4.3 in /opt/conda/lib/python3.9/site-packages (from pydantic!=1.8,!=1.8.1,<1.9.0,>=1.7.4->spacy) (3.10.0.2)\n",
+      "Requirement already satisfied: MarkupSafe>=2.0 in /opt/conda/lib/python3.9/site-packages (from jinja2->spacy) (2.1.1)\n",
+      "Requirement already satisfied: click<9.0.0,>=7.1.1 in /opt/conda/lib/python3.9/site-packages (from typer<0.5.0,>=0.3.0->spacy) (8.1.3)\n",
+      "Requirement already satisfied: idna<4,>=2.5; python_version >= \"3\" in /opt/conda/lib/python3.9/site-packages (from requests<3.0.0,>=2.13.0->spacy) (2.8)\n",
+      "Requirement already satisfied: charset-normalizer~=2.0.0; python_version >= \"3\" in /opt/conda/lib/python3.9/site-packages (from requests<3.0.0,>=2.13.0->spacy) (2.0.0)\n",
+      "Requirement already satisfied: certifi>=2017.4.17 in /opt/conda/lib/python3.9/site-packages (from requests<3.0.0,>=2.13.0->spacy) (2019.11.28)\n",
+      "Requirement already satisfied: urllib3<1.27,>=1.21.1 in /opt/conda/lib/python3.9/site-packages (from requests<3.0.0,>=2.13.0->spacy) (1.25.7)\n",
+      "Requirement already satisfied: smart-open<6.0.0,>=5.0.0 in /opt/conda/lib/python3.9/site-packages (from pathy>=0.3.5->spacy) (5.2.1)\n",
+      "Requirement already satisfied: pyparsing!=3.0.5,>=2.0.2 in /opt/conda/lib/python3.9/site-packages (from packaging>=20.0->spacy) (3.0.9)\n",
+      "2022-07-20 10:45:10.666520: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory\n",
+      "2022-07-20 10:45:10.666557: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.\n",
+      "Requirement already satisfied: en-core-web-sm==3.3.0 from https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.3.0/en_core_web_sm-3.3.0-py3-none-any.whl#egg=en_core_web_sm==3.3.0 in /opt/conda/lib/python3.9/site-packages (3.3.0)\n",
+      "Requirement already satisfied: spacy<3.4.0,>=3.3.0.dev0 in /opt/conda/lib/python3.9/site-packages (from en-core-web-sm==3.3.0) (3.3.1)\n",
+      "Requirement already satisfied: wasabi<1.1.0,>=0.9.1 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (0.9.1)\n",
+      "Requirement already satisfied: tqdm<5.0.0,>=4.38.0 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (4.62.1)\n",
+      "Requirement already satisfied: spacy-loggers<2.0.0,>=1.0.0 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (1.0.2)\n",
+      "Requirement already satisfied: langcodes<4.0.0,>=3.2.0 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (3.3.0)\n",
+      "Requirement already satisfied: pathy>=0.3.5 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (0.6.1)\n",
+      "Requirement already satisfied: numpy>=1.15.0 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (1.21.6)\n",
+      "Requirement already satisfied: srsly<3.0.0,>=2.4.3 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (2.4.3)\n",
+      "Requirement already satisfied: setuptools in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (58.2.0)\n",
+      "Requirement already satisfied: cymem<2.1.0,>=2.0.2 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (2.0.6)\n",
+      "Requirement already satisfied: jinja2 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (3.1.2)\n",
+      "Requirement already satisfied: catalogue<2.1.0,>=2.0.6 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (2.0.6)\n",
+      "Requirement already satisfied: pydantic!=1.8,!=1.8.1,<1.9.0,>=1.7.4 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (1.8.2)\n",
+      "Requirement already satisfied: murmurhash<1.1.0,>=0.28.0 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (1.0.7)\n",
+      "Requirement already satisfied: blis<0.8.0,>=0.4.0 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (0.7.7)\n",
+      "Requirement already satisfied: spacy-legacy<3.1.0,>=3.0.9 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (3.0.9)\n",
+      "Requirement already satisfied: thinc<8.1.0,>=8.0.14 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (8.0.17)\n",
+      "Requirement already satisfied: typer<0.5.0,>=0.3.0 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (0.4.1)\n",
+      "Requirement already satisfied: preshed<3.1.0,>=3.0.2 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (3.0.6)\n",
+      "Requirement already satisfied: packaging>=20.0 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (21.3)\n",
+      "Requirement already satisfied: requests<3.0.0,>=2.13.0 in /opt/conda/lib/python3.9/site-packages (from spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (2.26.0)\n",
+      "Requirement already satisfied: smart-open<6.0.0,>=5.0.0 in /opt/conda/lib/python3.9/site-packages (from pathy>=0.3.5->spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (5.2.1)\n",
+      "Requirement already satisfied: MarkupSafe>=2.0 in /opt/conda/lib/python3.9/site-packages (from jinja2->spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (2.1.1)\n",
+      "Requirement already satisfied: typing-extensions>=3.7.4.3 in /opt/conda/lib/python3.9/site-packages (from pydantic!=1.8,!=1.8.1,<1.9.0,>=1.7.4->spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (3.10.0.2)\n",
+      "Requirement already satisfied: click<9.0.0,>=7.1.1 in /opt/conda/lib/python3.9/site-packages (from typer<0.5.0,>=0.3.0->spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (8.1.3)\n",
+      "Requirement already satisfied: pyparsing!=3.0.5,>=2.0.2 in /opt/conda/lib/python3.9/site-packages (from packaging>=20.0->spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (3.0.9)\n",
+      "Requirement already satisfied: idna<4,>=2.5; python_version >= \"3\" in /opt/conda/lib/python3.9/site-packages (from requests<3.0.0,>=2.13.0->spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (2.8)\n",
+      "Requirement already satisfied: charset-normalizer~=2.0.0; python_version >= \"3\" in /opt/conda/lib/python3.9/site-packages (from requests<3.0.0,>=2.13.0->spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (2.0.0)\n",
+      "Requirement already satisfied: urllib3<1.27,>=1.21.1 in /opt/conda/lib/python3.9/site-packages (from requests<3.0.0,>=2.13.0->spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (1.25.7)\n",
+      "Requirement already satisfied: certifi>=2017.4.17 in /opt/conda/lib/python3.9/site-packages (from requests<3.0.0,>=2.13.0->spacy<3.4.0,>=3.3.0.dev0->en-core-web-sm==3.3.0) (2019.11.28)\n",
+      "\u001b[38;5;2m✔ Download and installation successful\u001b[0m\n",
+      "You can now load the package via spacy.load('en_core_web_sm')\n"
+     ]
+    }
+   ],
+   "source": [
+    "!pip install spacy\n",
+    "!python -m spacy download en_core_web_sm"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "443f2abc",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "2022-07-20 10:45:18.088211: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory\n",
+      "2022-07-20 10:45:18.088243: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Import spaCy\n",
+    "import spacy\n",
+    "# Load the English preprocessing pipeline\n",
+    "nlp = spacy.load('en_core_web_sm')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "id": "bc918310-c081-48cf-9474-d1b0a95d0cb0",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Сегодня моя золотая птичка снова задалась вопросом... \"Мам, а когда я выросту, ты постареешь?... а потом умрешь? ... и папа?... Мамочка, я не хочу взрослеть, можно я навсегда останусь такой маленькой?...\"\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Test: Parse the first reddit post in the dataset\n",
+    "parsed_post = nlp(df.selftext.iloc[0])\n",
+    "print(parsed_post)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "id": "70d6cf85-4c62-4f90-8adc-ce3b3c4ce500",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Sentence 1\n",
+      "Сегодня моя золотая птичка снова задалась вопросом...\n",
+      "\n",
+      "Sentence 2\n",
+      "\"Мам, а когда я выросту, ты постареешь?...\n",
+      "\n",
+      "Sentence 3\n",
+      "а потом умрешь? ...\n",
+      "\n",
+      "Sentence 4\n",
+      "и папа?...\n",
+      "\n",
+      "Sentence 5\n",
+      "Мамочка, я не хочу взрослеть, можно я навсегда останусь такой маленькой?...\"\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Print each sentence in the parsed post\n",
+    "for idx, sentence in enumerate(parsed_post.sents):  \n",
+    "    ##In python, .sents is used for \"sentence segmentation\" which is present inside spacy. \n",
+    "    print(f'Sentence {idx + 1}')\n",
+    "    print(sentence)\n",
+    "    print('') #space"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "id": "271e0e52",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>token_text</th>\n",
+       "      <th>part_of_speech</th>\n",
+       "      <th>token_lemma</th>\n",
+       "      <th>token_stop</th>\n",
+       "      <th>token_punct</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>Сегодня</td>\n",
+       "      <td>PROPN</td>\n",
+       "      <td>Сегодня</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>моя</td>\n",
+       "      <td>NOUN</td>\n",
+       "      <td>моя</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>золотая</td>\n",
+       "      <td>VERB</td>\n",
+       "      <td>золотая</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>птичка</td>\n",
+       "      <td>PROPN</td>\n",
+       "      <td>птичка</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>снова</td>\n",
+       "      <td>PROPN</td>\n",
+       "      <td>снова</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>5</th>\n",
+       "      <td>задалась</td>\n",
+       "      <td>PROPN</td>\n",
+       "      <td>задалась</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>6</th>\n",
+       "      <td>вопросом</td>\n",
+       "      <td>PROPN</td>\n",
+       "      <td>вопросом</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>7</th>\n",
+       "      <td>...</td>\n",
+       "      <td>PUNCT</td>\n",
+       "      <td>...</td>\n",
+       "      <td>False</td>\n",
+       "      <td>True</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>8</th>\n",
+       "      <td>\"</td>\n",
+       "      <td>PUNCT</td>\n",
+       "      <td>\"</td>\n",
+       "      <td>False</td>\n",
+       "      <td>True</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>9</th>\n",
+       "      <td>Мам</td>\n",
+       "      <td>PROPN</td>\n",
+       "      <td>Мам</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>10</th>\n",
+       "      <td>,</td>\n",
+       "      <td>PUNCT</td>\n",
+       "      <td>,</td>\n",
+       "      <td>False</td>\n",
+       "      <td>True</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>11</th>\n",
+       "      <td>а</td>\n",
+       "      <td>PROPN</td>\n",
+       "      <td>а</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>12</th>\n",
+       "      <td>когда</td>\n",
+       "      <td>PROPN</td>\n",
+       "      <td>когда</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>13</th>\n",
+       "      <td>я</td>\n",
+       "      <td>PROPN</td>\n",
+       "      <td>я</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>14</th>\n",
+       "      <td>выросту</td>\n",
+       "      <td>PROPN</td>\n",
+       "      <td>выросту</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   token_text part_of_speech token_lemma  token_stop  token_punct\n",
+       "0     Сегодня          PROPN     Сегодня       False        False\n",
+       "1         моя           NOUN         моя       False        False\n",
+       "2     золотая           VERB     золотая       False        False\n",
+       "3      птичка          PROPN      птичка       False        False\n",
+       "4       снова          PROPN       снова       False        False\n",
+       "5    задалась          PROPN    задалась       False        False\n",
+       "6    вопросом          PROPN    вопросом       False        False\n",
+       "7         ...          PUNCT         ...       False         True\n",
+       "8           \"          PUNCT           \"       False         True\n",
+       "9         Мам          PROPN         Мам       False        False\n",
+       "10          ,          PUNCT           ,       False         True\n",
+       "11          а          PROPN           а       False        False\n",
+       "12      когда          PROPN       когда       False        False\n",
+       "13          я          PROPN           я       False        False\n",
+       "14    выросту          PROPN     выросту       False        False"
+      ]
+     },
+     "execution_count": 23,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Extract the first 15 items for the following properties of the parsed post\n",
+    "\n",
+    "# The token text \n",
+    "token_text = [token.orth_ for token in parsed_post][:15]   \n",
+    "# Part of speech \n",
+    "token_pos = [token.pos_ for token in parsed_post][:15]   \n",
+    "# Lemma (or 'dictionary form')\n",
+    "token_lemma = [token.lemma_ for token in parsed_post][:15]\n",
+    "# Stop word? t/f\n",
+    "token_stop = [token.is_stop for token in parsed_post][:15]\n",
+    "# Puncutation? t/f\n",
+    "token_punct = [token.is_punct for token in parsed_post][:15]\n",
+    "\n",
+    "# Make a dataframe with these items\n",
+    "pd.DataFrame(zip(token_text, token_pos, token_lemma, token_stop, token_punct),\n",
+    "             columns=['token_text', 'part_of_speech', 'token_lemma', 'token_stop', 'token_punct'])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ab5e56f9",
+   "metadata": {},
+   "source": [
+    "### 1-4. Preprocessing all data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "id": "629cb596",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import spacy\n",
+    "nlp = spacy.load('en_core_web_sm')\n",
+    "from gensim.models.phrases import Phrases, Phraser"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "id": "e0d11084",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def clean(token):\n",
+    "    \"\"\"Helper function that specifies whether a token is:\n",
+    "        - punctuation\n",
+    "        - space\n",
+    "        - digit\n",
+    "    \"\"\"\n",
+    "    return token.is_punct or token.is_space or token.is_digit\n",
+    "\n",
+    "def line_read(df, text_col='selftext'):\n",
+    "    \"\"\"Generator function to read in text from df and get rid of line breaks.\"\"\"    \n",
+    "    for text in df[text_col]:\n",
+    "        yield text.replace('\\n', '')\n",
+    "\n",
+    "def preprocess(df, text_col='selftext', allowed_postags=['NOUN', 'ADJ']):\n",
+    "    \"\"\"Preprocessing function to apply to a dataframe.\"\"\"\n",
+    "    for parsed in nlp.pipe(line_read(df, text_col), batch_size=1000, disable=[\"tok2vec\", \"ner\"]):\n",
+    "        # Gather lowercased, lemmatized tokens\n",
+    "        tokens = [token.lemma_.lower() if token.lemma_ != '-PRON-'\n",
+    "                  else token.lower_ \n",
+    "                  for token in parsed if not clean(token)]\n",
+    "        # Remove specific lemmatizations, and words that are not nouns or adjectives\n",
+    "        tokens = [lemma\n",
+    "                  for lemma in tokens\n",
+    "                  if not lemma in [\"'s\",  \"’s\", \"’\"] and not lemma in allowed_postags]\n",
+    "        # Remove stop words\n",
+    "        tokens = [token for token in tokens if token not in spacy.lang.en.stop_words.STOP_WORDS]\n",
+    "        yield tokens"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "d2d05657",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# This may take a while\n",
+    "lemmas = [line for line in preprocess(df)]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "id": "f0107553-fa22-47b5-9bfa-7afe58c1e4be",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['stayed',\n",
+       " 'days',\n",
+       " 'days',\n",
+       " 'days',\n",
+       " 'know',\n",
+       " 'borispol',\n",
+       " 'pretty',\n",
+       " 'strict',\n",
+       " 'checking',\n",
+       " 'ones',\n",
+       " 'passport',\n",
+       " 'simferopol',\n",
+       " 'airport',\n",
+       " 'strict',\n",
+       " 'better',\n",
+       " 'use',\n",
+       " 'land',\n",
+       " 'border',\n",
+       " 'crossing',\n",
+       " 'lviv',\n",
+       " 'poland']"
+      ]
+     },
+     "execution_count": 27,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "lemmas[2]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "18403226-cabe-41ae-9499-427a54122846",
+   "metadata": {},
+   "source": [
+    "### 1-5.Phrase Modeling with `gensim`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "id": "dd61684f-3ef7-47d8-a7ab-0fc1e61bea6c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from gensim.models.phrases import Phrases, Phraser\n",
+    "\n",
+    "# Create bigram and trigram models\n",
+    "bigram = Phrases(lemmas, min_count=10, threshold=100)\n",
+    "trigram = Phrases(bigram[lemmas], min_count=10, threshold=50)  \n",
+    "bigram_phraser = Phraser(bigram)\n",
+    "trigram_phraser = Phraser(trigram)\n",
+    "\n",
+    "# Form trigrams\n",
+    "trigrams = [trigram_phraser[bigram_phraser[doc]] for doc in lemmas]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "id": "48ac415e-aedf-406b-ab33-f133bcc9cc1e",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'сегодня моя золотая птичка снова задалась вопросом мам а когда я выросту ты постареешь а потом умрешь и папа мамочка я_не хочу взрослеть можно я навсегда останусь такой маленькой'"
+      ]
+     },
+     "execution_count": 29,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Join each into a string\n",
+    "trigrams_joined = [' '.join(trigram) for trigram in trigrams]\n",
+    "trigrams_joined[0]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "id": "46509ba8-2269-440d-9ab3-e33e90691a2c",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "542"
+      ]
+     },
+     "execution_count": 30,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#We can use .keys() to identify the bigrams in the dataset. How many bigrams were identified by the parser?\n",
+    "len(bigram_phraser.phrasegrams.keys())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 31,
+   "id": "6f754728-8abe-4f5c-a3bf-a3e6ff051dd0",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['border_crossing',\n",
+       " 'shed_light',\n",
+       " 'years_ago',\n",
+       " 'hey_guys',\n",
+       " 'thanks_advance',\n",
+       " 'eastern_europe',\n",
+       " 'eastern_european',\n",
+       " 'english_speakers',\n",
+       " 'cross_border',\n",
+       " 'story_short']"
+      ]
+     },
+     "execution_count": 31,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#Look at biagrams\n",
+    "list(bigram_phraser.phrasegrams.keys())[:10]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "id": "e53a815d-5212-4317-ba74-4a4b7f596c77",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['long_story_short',\n",
+       " 'ministry_foreign_affairs',\n",
+       " 'euromaidan_pr_twitter](http://goo.gl',\n",
+       " 'euromaidan_pr_facebook](http://goo.gl',\n",
+       " 'ukrainian_brothers_sisters',\n",
+       " 'minister_foreign_affairs',\n",
+       " 'having_trouble_finding',\n",
+       " 'un_security_council',\n",
+       " 'worst_case_scenario',\n",
+       " 'united_states_america',\n",
+       " 'native_english_speaker',\n",
+       " '=_webp&s_=',\n",
+       " 'black_sea_fleet',\n",
+       " 'view_poll](https://www.reddit.com_poll',\n",
+       " 'якщо_у_вас',\n",
+       " 'sovereignty_territorial_integrity',\n",
+       " '=_share&utm_medium',\n",
+       " 'ukraine_🇺_🇦',\n",
+       " 'anti_tank_weapons',\n",
+       " 'donetsk_luhansk_regions',\n",
+       " 'committing_war_crimes',\n",
+       " 'news_spread_likely',\n",
+       " 'russia_backed_trolls',\n",
+       " 'reception_points_ready',\n",
+       " \"right_edit_don't\",\n",
+       " 'need_visa_pass',\n",
+       " 'need_passport_visas',\n",
+       " \"suspended_don't_need\",\n",
+       " 'need_visa:•_\\u2060in',\n",
+       " 'ukrainian_https://www.gov.pl/web/udsc/ukraina---ua_\\u2060in',\n",
+       " 'copy_paste_encourage',\n",
+       " 'https://www.gov.pl/web/udsc/ukraina---ua_\\u2060in_english',\n",
+       " 'використовував_google_translate',\n",
+       " 'bic_nbua_ua',\n",
+       " 'address_instytutska_st',\n",
+       " 'initial_evaluation_management',\n",
+       " 'air_raid_sirens',\n",
+       " 'urban_warfare_tips',\n",
+       " 'air_raid_siren',\n",
+       " 'nuclear_power_plant',\n",
+       " 'площадь_ленина_🔻']"
+      ]
+     },
+     "execution_count": 32,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Look at trigrams\n",
+    "[trigram for trigram in list(trigram_phraser.phrasegrams.keys()) if trigram.count('_') == 2]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "c691a8ee-1857-4ac8-9c1f-187cb118fb7a",
+   "metadata": {},
+   "source": [
+    "### 1-6. Save the file after preprocessing"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "id": "bf56a767-36f8-4a1e-b2f9-c2ee9bf4a19f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Inserting next to selftext column\n",
+    "df.insert(loc=7, column='lemmas', value=trigrams_joined)\n",
+    "# Removing empty rows in lemmas\n",
+    "df = df[~df['lemmas'].isin([''])]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 34,
+   "id": "5156f53e-5072-4eb4-b094-48d8f92a12ca",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>idint</th>\n",
+       "      <th>idstr</th>\n",
+       "      <th>created</th>\n",
+       "      <th>nsfw</th>\n",
+       "      <th>author</th>\n",
+       "      <th>title</th>\n",
+       "      <th>selftext</th>\n",
+       "      <th>lemmas</th>\n",
+       "      <th>score</th>\n",
+       "      <th>distinguish</th>\n",
+       "      <th>textlen</th>\n",
+       "      <th>num_comments</th>\n",
+       "      <th>flair_text</th>\n",
+       "      <th>flair_css_class</th>\n",
+       "      <th>detect</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>35</th>\n",
+       "      <td>26781072</td>\n",
+       "      <td>t3_fy0eo</td>\n",
+       "      <td>1299351508</td>\n",
+       "      <td>0</td>\n",
+       "      <td>margys</td>\n",
+       "      <td>Мам, а когда я выросту, ты постареешь?...</td>\n",
+       "      <td>Сегодня моя золотая птичка снова задалась вопр...</td>\n",
+       "      <td>сегодня моя золотая птичка снова задалась вопр...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>204</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>36</th>\n",
+       "      <td>26795140</td>\n",
+       "      <td>t3_fyb9g</td>\n",
+       "      <td>1299397232</td>\n",
+       "      <td>0</td>\n",
+       "      <td>pozhaluista</td>\n",
+       "      <td>Does the /r/ Ukraine have anyone here? Hello?</td>\n",
+       "      <td>Seems quiet.</td>\n",
+       "      <td>quiet</td>\n",
+       "      <td>10</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>13</td>\n",
+       "      <td>24</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>50</th>\n",
+       "      <td>29482904</td>\n",
+       "      <td>t3_hjx5k</td>\n",
+       "      <td>1306343697</td>\n",
+       "      <td>0</td>\n",
+       "      <td>visarun</td>\n",
+       "      <td>Does immigration in Simferpol check whether th...</td>\n",
+       "      <td>I have stayed 70 days and then 80 days out of ...</td>\n",
+       "      <td>stayed days days days know borispol pretty str...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>223</td>\n",
+       "      <td>1</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>51</th>\n",
+       "      <td>29608809</td>\n",
+       "      <td>t3_hmmax</td>\n",
+       "      <td>1306639850</td>\n",
+       "      <td>0</td>\n",
+       "      <td>[deleted]</td>\n",
+       "      <td>Tickets to Ukraine from Seoul?</td>\n",
+       "      <td>Hi everyone.  I'd like to visit Ukraine for th...</td>\n",
+       "      <td>hi like visit ukraine time looking cheap ticke...</td>\n",
+       "      <td>2</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>281</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>62</th>\n",
+       "      <td>33263382</td>\n",
+       "      <td>t3_jsy6u</td>\n",
+       "      <td>1314200067</td>\n",
+       "      <td>0</td>\n",
+       "      <td>lsakbaetle3r9</td>\n",
+       "      <td>looking for someone</td>\n",
+       "      <td>had a friend who moved to my town ~4-5 years a...</td>\n",
+       "      <td>friend moved town ~4 years ago.he myspace acce...</td>\n",
+       "      <td>3</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>386</td>\n",
+       "      <td>1</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "       idint     idstr     created  nsfw         author  \\\n",
+       "35  26781072  t3_fy0eo  1299351508     0         margys   \n",
+       "36  26795140  t3_fyb9g  1299397232     0    pozhaluista   \n",
+       "50  29482904  t3_hjx5k  1306343697     0        visarun   \n",
+       "51  29608809  t3_hmmax  1306639850     0      [deleted]   \n",
+       "62  33263382  t3_jsy6u  1314200067     0  lsakbaetle3r9   \n",
+       "\n",
+       "                                                title  \\\n",
+       "35         Мам, а когда я выросту, ты постареешь?...    \n",
+       "36      Does the /r/ Ukraine have anyone here? Hello?   \n",
+       "50  Does immigration in Simferpol check whether th...   \n",
+       "51                     Tickets to Ukraine from Seoul?   \n",
+       "62                                looking for someone   \n",
+       "\n",
+       "                                             selftext  \\\n",
+       "35  Сегодня моя золотая птичка снова задалась вопр...   \n",
+       "36                                      Seems quiet.    \n",
+       "50  I have stayed 70 days and then 80 days out of ...   \n",
+       "51  Hi everyone.  I'd like to visit Ukraine for th...   \n",
+       "62  had a friend who moved to my town ~4-5 years a...   \n",
+       "\n",
+       "                                               lemmas  score distinguish  \\\n",
+       "35  сегодня моя золотая птичка снова задалась вопр...      0         NaN   \n",
+       "36                                              quiet     10         NaN   \n",
+       "50  stayed days days days know borispol pretty str...      0         NaN   \n",
+       "51  hi like visit ukraine time looking cheap ticke...      2         NaN   \n",
+       "62  friend moved town ~4 years ago.he myspace acce...      3         NaN   \n",
+       "\n",
+       "    textlen  num_comments flair_text flair_css_class detect  \n",
+       "35      204             0        NaN             NaN     en  \n",
+       "36       13            24        NaN             NaN     en  \n",
+       "50      223             1        NaN             NaN     en  \n",
+       "51      281             0        NaN             NaN     en  \n",
+       "62      386             1        NaN             NaN     en  "
+      ]
+     },
+     "execution_count": 34,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "id": "40128c0f-1221-47bc-84e1-ff9bce565b29",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Save to new csv\n",
+    "df.to_csv('ukraine_lemmas.csv', index=False)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "1471acc6-8ecc-443a-8fbe-48f4cf4c7c89",
+   "metadata": {},
+   "source": [
+    "### For the next steps, make sure to use the file: 'ukraine_lemmas.csv'"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "360dd5f6-d48e-4417-8556-8d574ff1e8e7",
+   "metadata": {},
+   "source": [
+    "## 2. Exploring Texts \n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "bfdb3118-1c93-42f1-baee-3257d5815084",
+   "metadata": {},
+   "source": [
+    "### 2-1. Diving Deeper into `pandas`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "id": "ff5e7b30-1e87-4172-b670-ccb5c54f4913",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df = pd.read_csv('ukraine_lemmas.csv')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "id": "813e04df-397b-4dd3-ab12-b8ad86fcc7d6",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>idint</th>\n",
+       "      <th>idstr</th>\n",
+       "      <th>created</th>\n",
+       "      <th>nsfw</th>\n",
+       "      <th>author</th>\n",
+       "      <th>title</th>\n",
+       "      <th>selftext</th>\n",
+       "      <th>lemmas</th>\n",
+       "      <th>score</th>\n",
+       "      <th>distinguish</th>\n",
+       "      <th>textlen</th>\n",
+       "      <th>num_comments</th>\n",
+       "      <th>flair_text</th>\n",
+       "      <th>flair_css_class</th>\n",
+       "      <th>detect</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>26781072</td>\n",
+       "      <td>t3_fy0eo</td>\n",
+       "      <td>1299351508</td>\n",
+       "      <td>0</td>\n",
+       "      <td>margys</td>\n",
+       "      <td>Мам, а когда я выросту, ты постареешь?...</td>\n",
+       "      <td>Сегодня моя золотая птичка снова задалась вопр...</td>\n",
+       "      <td>сегодня моя золотая птичка снова задалась вопр...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>204</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>26795140</td>\n",
+       "      <td>t3_fyb9g</td>\n",
+       "      <td>1299397232</td>\n",
+       "      <td>0</td>\n",
+       "      <td>pozhaluista</td>\n",
+       "      <td>Does the /r/ Ukraine have anyone here? Hello?</td>\n",
+       "      <td>Seems quiet.</td>\n",
+       "      <td>quiet</td>\n",
+       "      <td>10</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>13</td>\n",
+       "      <td>24</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>29482904</td>\n",
+       "      <td>t3_hjx5k</td>\n",
+       "      <td>1306343697</td>\n",
+       "      <td>0</td>\n",
+       "      <td>visarun</td>\n",
+       "      <td>Does immigration in Simferpol check whether th...</td>\n",
+       "      <td>I have stayed 70 days and then 80 days out of ...</td>\n",
+       "      <td>stayed days days days know borispol pretty str...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>223</td>\n",
+       "      <td>1</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "      idint     idstr     created  nsfw       author  \\\n",
+       "0  26781072  t3_fy0eo  1299351508     0       margys   \n",
+       "1  26795140  t3_fyb9g  1299397232     0  pozhaluista   \n",
+       "2  29482904  t3_hjx5k  1306343697     0      visarun   \n",
+       "\n",
+       "                                               title  \\\n",
+       "0         Мам, а когда я выросту, ты постареешь?...    \n",
+       "1      Does the /r/ Ukraine have anyone here? Hello?   \n",
+       "2  Does immigration in Simferpol check whether th...   \n",
+       "\n",
+       "                                            selftext  \\\n",
+       "0  Сегодня моя золотая птичка снова задалась вопр...   \n",
+       "1                                      Seems quiet.    \n",
+       "2  I have stayed 70 days and then 80 days out of ...   \n",
+       "\n",
+       "                                              lemmas  score distinguish  \\\n",
+       "0  сегодня моя золотая птичка снова задалась вопр...      0         NaN   \n",
+       "1                                              quiet     10         NaN   \n",
+       "2  stayed days days days know borispol pretty str...      0         NaN   \n",
+       "\n",
+       "   textlen  num_comments flair_text flair_css_class detect  \n",
+       "0      204             0        NaN             NaN     en  \n",
+       "1       13            24        NaN             NaN     en  \n",
+       "2      223             1        NaN             NaN     en  "
+      ]
+     },
+     "execution_count": 37,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.head(3)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "id": "63ab0901-2c06-4d78-bfeb-95972d36a985",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>idint</th>\n",
+       "      <th>idstr</th>\n",
+       "      <th>created</th>\n",
+       "      <th>nsfw</th>\n",
+       "      <th>author</th>\n",
+       "      <th>title</th>\n",
+       "      <th>selftext</th>\n",
+       "      <th>lemmas</th>\n",
+       "      <th>score</th>\n",
+       "      <th>distinguish</th>\n",
+       "      <th>textlen</th>\n",
+       "      <th>num_comments</th>\n",
+       "      <th>flair_text</th>\n",
+       "      <th>flair_css_class</th>\n",
+       "      <th>detect</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>11130</th>\n",
+       "      <td>1757241133</td>\n",
+       "      <td>t3_t27rxp</td>\n",
+       "      <td>1645911562</td>\n",
+       "      <td>0</td>\n",
+       "      <td>Ghost1069</td>\n",
+       "      <td>Officials in Ukraine are doing their best to s...</td>\n",
+       "      <td>-- EDIT FOR SUMY --- AIR RAID ON SUMY --- \\n\\n...</td>\n",
+       "      <td>edit sumy air_raid sumy shelter sumy shelter s...</td>\n",
+       "      <td>164624</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3099</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>8927</th>\n",
+       "      <td>1753516706</td>\n",
+       "      <td>t3_szzy5e</td>\n",
+       "      <td>1645671618</td>\n",
+       "      <td>0</td>\n",
+       "      <td>soff_mm</td>\n",
+       "      <td>It is an honor to be a Ukrainian at this hour.</td>\n",
+       "      <td>We're staying strong. Support the Armed Forces...</td>\n",
+       "      <td>staying strong support armed_forces ukraine</td>\n",
+       "      <td>48955</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>66</td>\n",
+       "      <td>2154</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>15629</th>\n",
+       "      <td>1766534572</td>\n",
+       "      <td>t3_t7qyss</td>\n",
+       "      <td>1646540863</td>\n",
+       "      <td>0</td>\n",
+       "      <td>sharag123</td>\n",
+       "      <td>It is almost 7am and the Sun has Risen on the ...</td>\n",
+       "      <td>&amp;#x200B;</td>\n",
+       "      <td>x200b</td>\n",
+       "      <td>33895</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>39</td>\n",
+       "      <td>531</td>\n",
+       "      <td>WAR</td>\n",
+       "      <td>war</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "            idint      idstr     created  nsfw     author  \\\n",
+       "11130  1757241133  t3_t27rxp  1645911562     0  Ghost1069   \n",
+       "8927   1753516706  t3_szzy5e  1645671618     0    soff_mm   \n",
+       "15629  1766534572  t3_t7qyss  1646540863     0  sharag123   \n",
+       "\n",
+       "                                                   title  \\\n",
+       "11130  Officials in Ukraine are doing their best to s...   \n",
+       "8927      It is an honor to be a Ukrainian at this hour.   \n",
+       "15629  It is almost 7am and the Sun has Risen on the ...   \n",
+       "\n",
+       "                                                selftext  \\\n",
+       "11130  -- EDIT FOR SUMY --- AIR RAID ON SUMY --- \\n\\n...   \n",
+       "8927   We're staying strong. Support the Armed Forces...   \n",
+       "15629                                           &#x200B;   \n",
+       "\n",
+       "                                                  lemmas   score distinguish  \\\n",
+       "11130  edit sumy air_raid sumy shelter sumy shelter s...  164624         NaN   \n",
+       "8927         staying strong support armed_forces ukraine   48955         NaN   \n",
+       "15629                                              x200b   33895         NaN   \n",
+       "\n",
+       "       textlen  num_comments flair_text flair_css_class detect  \n",
+       "11130        0          3099        NaN             NaN     en  \n",
+       "8927        66          2154        NaN             NaN     en  \n",
+       "15629       39           531        WAR             war     en  "
+      ]
+     },
+     "execution_count": 38,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Sort dataframe by highest scores\n",
+    "df.sort_values(by=['score'], ascending=False)[:3]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "id": "dc65ef9e-5bce-4887-a0ba-b61748939bd6",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "451"
+      ]
+     },
+     "execution_count": 39,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# rows with a score higher than 500\n",
+    "df_top = df.loc[df['score'] >= 500, :]\n",
+    "len(df_top)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "id": "14cd4387-8692-43e1-acdd-625c2110f099",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Russian-Ukrainian War       1989\n",
+       "Question                    1380\n",
+       "Discussion                  1227\n",
+       "News                         393\n",
+       "Request                      262\n",
+       "WAR                          205\n",
+       "Travel                       181\n",
+       "Military                     119\n",
+       "History                       70\n",
+       "Media                         70\n",
+       "Social Media                  69\n",
+       "Humor                         63\n",
+       "Russo-Ukrainian War           59\n",
+       "Moving to Ukraine             43\n",
+       "Music                         38\n",
+       "WAR CRIME                     30\n",
+       "Shitpost                      30\n",
+       "War Crimes                    24\n",
+       "Cuisine                       16\n",
+       "Russian Protest               15\n",
+       "Important                     14\n",
+       "Video                         12\n",
+       "Social media                  10\n",
+       "Photo                         10\n",
+       "Government (Unconfirmed)       7\n",
+       "Tweet                          4\n",
+       "Unconfirmed                    3\n",
+       "Need help                      3\n",
+       "WAR | Misleading               1\n",
+       "Goverment (Unconfirmed)        1\n",
+       "RATE MY BORSHCH!               1\n",
+       ":FlagUA: Government            1\n",
+       "Misleading                     1\n",
+       "ASTARTES                       1\n",
+       "Help                           1\n",
+       "Name: flair_text, dtype: int64"
+      ]
+     },
+     "execution_count": 40,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# unique value counts for a column\n",
+    "df.flair_text.value_counts()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b2e44a11-cf7d-4d93-bdb9-e747419ceb34",
+   "metadata": {},
+   "source": [
+    "### 2-2 Type-token ratio"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "id": "89c7d00a-28ea-452e-a9cb-61386986d656",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# compute the TTR\n",
+    "\n",
+    "def type_token_ratio(tokens):\n",
+    "    \"\"\"Calculates type-token ratio on tokens.\"\"\"\n",
+    "    numTokens = len(tokens)\n",
+    "    numTypes = len(set(tokens))\n",
+    "    return numTypes / numTokens"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "id": "3265b219-6865-444e-9088-649adee463e1",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Text:\n",
+      " сегодня моя золотая птичка снова задалась вопросом мам а когда я выросту ты постареешь а потом умрешь и папа мамочка я_не хочу взрослеть можно я навсегда останусь такой маленькой\n",
+      "TTR: 0.9310344827586207 \n",
+      "\n",
+      "Text:\n",
+      " quiet\n",
+      "TTR: 1.0 \n",
+      "\n",
+      "Text:\n",
+      " stayed days days days know borispol pretty strict checking ones passport simferopol airport strict better use land border_crossing lviv poland\n",
+      "TTR: 0.85 \n",
+      "\n",
+      "Text:\n",
+      " hi like visit ukraine time looking cheap tickets seoul->kiev->seoul june june flexible seoul june 25/26).could suggest cheapest way fly?thanks advance\n",
+      "TTR: 0.9 \n",
+      "\n",
+      "Text:\n",
+      " friend moved town ~4 years ago.he myspace accessed long time.he mail.ru email played drugswars.ru game lolhes kiev wondering knows uk social networking site maybe me?pm u wanna help nt wanna blast\n",
+      "TTR: 0.967741935483871 \n",
+      "\n",
+      "Text:\n",
+      " hey /r ukraine trying connect roots trying find meaning sticks usa hlusko found lemko origin people caspian mountains language supposed like ukrainian shed_light me?tldr hlusko mean language\n",
+      "TTR: 0.8888888888888888 \n",
+      "\n",
+      "Text:\n",
+      " redditors sure day probably monday tuesday 27.09\n",
+      "TTR: 1.0 \n",
+      "\n",
+      "Text:\n",
+      " new reddit\n",
+      "TTR: 1.0 \n",
+      "\n",
+      "Text:\n",
+      " friends working school project nuclear disaster chernobyl years_ago booked tickets kiev arranged tour area contamination pripjat plan visit museum goal trip gather information possible consequences disaster native ukrainians redditors living think maybe general tips visiting kiev non ukrainian russian speaker fluent_english know bit german\n",
+      "TTR: 0.9545454545454546 \n",
+      "\n",
+      "Text:\n",
+      " group friends planning going kiev european cup summer want rent house guys know good websites purpose find sketchy looking ones\n",
+      "TTR: 1.0 \n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "#loop over the first 10 lemmatized submissions into dataframe\n",
+    "\n",
+    "for text in df['lemmas'][:10]:\n",
+    "    tokens = text.split()\n",
+    "    print('Text:\\n', text)\n",
+    "    print('TTR:', type_token_ratio(tokens), '\\n')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e3c67410-192b-44ee-a144-8c512acfafc2",
+   "metadata": {},
+   "source": [
+    "### 2-3 Processing and Analyzing Language with `Text()`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "id": "c3b7cda1-f538-4adb-8e77-e04b71ffce75",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: nltk in /opt/conda/lib/python3.9/site-packages (3.6.7)\n",
+      "Requirement already satisfied: click in /opt/conda/lib/python3.9/site-packages (from nltk) (8.1.3)\n",
+      "Requirement already satisfied: joblib in /opt/conda/lib/python3.9/site-packages (from nltk) (1.0.1)\n",
+      "Requirement already satisfied: regex>=2021.8.3 in /opt/conda/lib/python3.9/site-packages (from nltk) (2022.6.2)\n",
+      "Requirement already satisfied: tqdm in /opt/conda/lib/python3.9/site-packages (from nltk) (4.62.1)\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Run if you do not have nltk installed\n",
+    "!pip install nltk"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 44,
+   "id": "f9fbaea6-9b0b-4c28-81d8-a83fe359bcab",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "tokens = []\n",
+    "for idx, row in enumerate(df['lemmas']):\n",
+    "    # Notice that we put all tokens in the same list\n",
+    "    tokens.extend(row.split(' '))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 45,
+   "id": "fdefa0af-c8ad-4557-9799-e58769379eb3",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[nltk_data] Downloading package stopwords to /opt/conda/nltk_data...\n",
+      "[nltk_data]   Unzipping corpora/stopwords.zip.\n"
+     ]
+    }
+   ],
+   "source": [
+    "import nltk\n",
+    "nltk.download('stopwords')\n",
+    "from nltk.text import Text\n",
+    "\n",
+    "##aita_tokens = Text(tokens)\n",
+    "ukraine_tokens = Text(tokens) ##MJ: I changed the name to make it corresponding to our dataset"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7f6aa009-f419-4610-9d48-e866a33b02ac",
+   "metadata": {},
+   "source": [
+    "### Concordances"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 46,
+   "id": "7c92ad05-b5a6-46bc-991b-a136668962b0",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[('removed][view_poll](https://www.reddit.com', 'poll'),\n",
+       " ('let', 'know'),\n",
+       " ('=_png&auto', '=_webp&s_='),\n",
+       " ('aid_polish_government_launched', 'dedicated_site'),\n",
+       " ('ready_arrival_reception_points', 'ready_border'),\n",
+       " ('shelter_food_medical_legal', 'aid_polish_government_launched'),\n",
+       " ('seek_asylum_polish_border', 'ready_arrival_reception_points'),\n",
+       " ('russia_backed_trolls', 'polish_border_closed_lie'),\n",
+       " ('polish_border_closed_lie', 'seek_asylum_polish_border'),\n",
+       " ('share_information', 'know_seeking'),\n",
+       " ('=_pjpg&auto', '=_webp&s_='),\n",
+       " ('need_passport_visas', \"suspended_don't_need\"),\n",
+       " ('russian', 'soldiers'),\n",
+       " ('dedicated_site', 'help_ua.gov.plplease'),\n",
+       " ('news_spread_likely', 'russia_backed_trolls'),\n",
+       " ('help_ua.gov.plplease', 'share_information'),\n",
+       " ('polish_border', 'need_passport_visas'),\n",
+       " ('feel', 'like'),\n",
+       " ('dear_ukrainians!i_heard_social', 'media_fake'),\n",
+       " ('media_fake', 'news_spread_likely')]"
+      ]
+     },
+     "execution_count": 46,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ukraine_tokens.collocation_list()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "id": "2109ee96-7b93-4635-933f-683852a5d1e5",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[('removed][view_poll](https://www.reddit.com', 'poll'),\n",
+       " ('let', 'know'),\n",
+       " ('=_png&auto', '=_webp&s_='),\n",
+       " ('aid_polish_government_launched', 'dedicated_site'),\n",
+       " ('ready_arrival_reception_points', 'ready_border'),\n",
+       " ('ready_border', 'shelter_food_medical_legal'),\n",
+       " ('shelter_food_medical_legal', 'aid_polish_government_launched'),\n",
+       " ('shelter_food_medical_legal', 'dedicated_site'),\n",
+       " ('=_pjpg&auto', '=_webp&s_='),\n",
+       " ('seek_asylum_polish_border', 'ready_border'),\n",
+       " ('seek_asylum_polish_border', 'ready_arrival_reception_points'),\n",
+       " ('russia_backed_trolls', 'polish_border_closed_lie'),\n",
+       " ('polish_border_closed_lie', 'seek_asylum_polish_border'),\n",
+       " ('russia_backed_trolls', 'seek_asylum_polish_border'),\n",
+       " ('polish_border_closed_lie', 'ready_arrival_reception_points'),\n",
+       " ('share_information', 'know_seeking'),\n",
+       " ('need_passport_visas', \"suspended_don't_need\"),\n",
+       " ('russian', 'soldiers'),\n",
+       " ('aid_polish_government_launched', 'help_ua.gov.plplease'),\n",
+       " ('dedicated_site', 'help_ua.gov.plplease'),\n",
+       " ('help_ua.gov.plplease', 'know_seeking'),\n",
+       " ('news_spread_likely', 'russia_backed_trolls'),\n",
+       " ('polish_border', 'need_passport_visas'),\n",
+       " ('help_ua.gov.plplease', 'share_information'),\n",
+       " ('news_spread_likely', 'polish_border_closed_lie'),\n",
+       " ('x200b;https://preview.redd.it', '=_png&auto'),\n",
+       " ('dedicated_site', 'share_information'),\n",
+       " ('speak', 'russian'),\n",
+       " ('polish_border', \"suspended_don't_need\"),\n",
+       " ('speak', 'ukrainian')]"
+      ]
+     },
+     "execution_count": 47,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Change input arguments\n",
+    "ukraine_tokens.collocation_list(num=30, window_size=3)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7c8ff5e8-247a-474b-a30f-3c2090205c64",
+   "metadata": {},
+   "source": [
+    "### Word Plotting"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 48,
+   "id": "c5185bce-1517-4dfa-95d7-8855690fe0f2",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "##ukraine_tokens.dispersion_plot([\"Russian-Ukrainian War\", \"Question\", \"Discussion\"])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 60,
+   "id": "d6b1719c-096f-406e-9a2e-562af3845adf",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "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9b94Vvf7X/wysvK1ZO0BzXmhk+oF19Sho1l6871Et+f9IZzeXpfj7PxJ1K51PB/v/53by8t2zXgDAPBzXfPTvK3uDtXHO465vv54x3E1vSNI1f3+1+HusQ31yP2NNfkP/1Zm9sUrHie/oEi+PjYF1a6u4mJLm/5z1Gjhnj4eAAA/1zXvTIc/3Fxvr9mv59/8TDabVPc2f734RFSp/TpHNZCvr7cm/2G7/m9421LbG4XXVvuW9fXczE8VEuSv5nfV1VdHMn/2wj19PAAAfi6bZVm8/+kGz0xvHczGPWbjHrNxr6rN5lrPTPkbkAAAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwREwBADBETAEAMERMAQAwVKlj+tdNh7R45T7X1/89eFp9x63V8dM5rtemLNmhT3Yer4jlAQAgqZLHtEXjYO1POev6+kBKppo2DNKBw5dfcxZbOnQ0U5FN6l7X8ZzO4jJZJwDg1uZT0Qu4mnvvDFZ6Vr7O5V5SUK3qOpByVr/s0VSf7vpevTvcpSOnzsu/uq82/PuoDhzJVFFRsWrX9NOYQXaF1qmh9Kx8jZ37hfp0uFN7vz2jLlG368F2d1b0ZQEAqphKHdNqvt66u8FtOnA4U1H3hupSoVNR94RpydoDkqT9hy/flQ7oeree7tdckrR5x3H9ecNBTRwSLUnKzS9Ug9BaeqLnPTd8/uDgAM9dTCURElKropdQaTEb95iNe8zGvVtpNpU6ppLUokld7U85K//qPrrvzjry9rIpom5NHT+do/0pZ9U+Mly7v87Qxn8f1cXCIjmdVonv9/PxUodWET/r3JmZeSoutq69400iJKSWzpzJrehlVErMxj1m4x6zca+q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\n",
+      "text/plain": [
+       "<Figure size 504x360 with 1 Axes>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "##MJ: Tried different words, but still doesn't show anything?\n",
+    "ukraine_tokens.dispersion_plot([\"Russian\", \"Ukrainian\", \"War\"])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "c96c6c06-ada2-4bfa-962c-fa75d2bdd65e",
+   "metadata": {},
+   "source": [
+    "### Similar Words"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 49,
+   "id": "9d4f9cff-fb3c-40f5-a969-9bfe5834d5ee",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "like ukraine friends currently wife know time looking kiev nt hey\n",
+      "people language supposed ukrainian visiting russian going want guys\n"
+     ]
+    }
+   ],
+   "source": [
+    "ukraine_tokens.similar('partner')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "114a54c7-5e98-43c0-bc39-217ef809e1bf",
+   "metadata": {},
+   "source": [
+    "### Common Context"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 51,
+   "id": "433b9523-7049-48e7-b6a8-1ae6cde872b3",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "No common contexts were found\n"
+     ]
+    }
+   ],
+   "source": [
+    "ukraine_tokens.common_contexts(['mom', 'dad'])  ##MJ: We need to change the input to match our data?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "80c5da1c-7afb-4e80-9cfc-66808a091657",
+   "metadata": {},
+   "source": [
+    "## 2.4 Incorporating Time\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 52,
+   "id": "e6865ab5-ef1d-4d1b-a55f-51cc0f8a405f",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Timestamp('2008-04-08 05:21:54')"
+      ]
+     },
+     "execution_count": 52,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "pd.to_datetime(1207632114, unit='s')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 53,
+   "id": "42b4b273-9f4a-4b76-81b8-fc108177b4a0",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>idint</th>\n",
+       "      <th>idstr</th>\n",
+       "      <th>created</th>\n",
+       "      <th>created_datetime</th>\n",
+       "      <th>nsfw</th>\n",
+       "      <th>author</th>\n",
+       "      <th>title</th>\n",
+       "      <th>selftext</th>\n",
+       "      <th>lemmas</th>\n",
+       "      <th>score</th>\n",
+       "      <th>distinguish</th>\n",
+       "      <th>textlen</th>\n",
+       "      <th>num_comments</th>\n",
+       "      <th>flair_text</th>\n",
+       "      <th>flair_css_class</th>\n",
+       "      <th>detect</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>26781072</td>\n",
+       "      <td>t3_fy0eo</td>\n",
+       "      <td>1299351508</td>\n",
+       "      <td>2011-03-05 18:58:28</td>\n",
+       "      <td>0</td>\n",
+       "      <td>margys</td>\n",
+       "      <td>Мам, а когда я выросту, ты постареешь?...</td>\n",
+       "      <td>Сегодня моя золотая птичка снова задалась вопр...</td>\n",
+       "      <td>сегодня моя золотая птичка снова задалась вопр...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>204</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>26795140</td>\n",
+       "      <td>t3_fyb9g</td>\n",
+       "      <td>1299397232</td>\n",
+       "      <td>2011-03-06 07:40:32</td>\n",
+       "      <td>0</td>\n",
+       "      <td>pozhaluista</td>\n",
+       "      <td>Does the /r/ Ukraine have anyone here? Hello?</td>\n",
+       "      <td>Seems quiet.</td>\n",
+       "      <td>quiet</td>\n",
+       "      <td>10</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>13</td>\n",
+       "      <td>24</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>29482904</td>\n",
+       "      <td>t3_hjx5k</td>\n",
+       "      <td>1306343697</td>\n",
+       "      <td>2011-05-25 17:14:57</td>\n",
+       "      <td>0</td>\n",
+       "      <td>visarun</td>\n",
+       "      <td>Does immigration in Simferpol check whether th...</td>\n",
+       "      <td>I have stayed 70 days and then 80 days out of ...</td>\n",
+       "      <td>stayed days days days know borispol pretty str...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>223</td>\n",
+       "      <td>1</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>en</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "      idint     idstr     created    created_datetime  nsfw       author  \\\n",
+       "0  26781072  t3_fy0eo  1299351508 2011-03-05 18:58:28     0       margys   \n",
+       "1  26795140  t3_fyb9g  1299397232 2011-03-06 07:40:32     0  pozhaluista   \n",
+       "2  29482904  t3_hjx5k  1306343697 2011-05-25 17:14:57     0      visarun   \n",
+       "\n",
+       "                                               title  \\\n",
+       "0         Мам, а когда я выросту, ты постареешь?...    \n",
+       "1      Does the /r/ Ukraine have anyone here? Hello?   \n",
+       "2  Does immigration in Simferpol check whether th...   \n",
+       "\n",
+       "                                            selftext  \\\n",
+       "0  Сегодня моя золотая птичка снова задалась вопр...   \n",
+       "1                                      Seems quiet.    \n",
+       "2  I have stayed 70 days and then 80 days out of ...   \n",
+       "\n",
+       "                                              lemmas  score distinguish  \\\n",
+       "0  сегодня моя золотая птичка снова задалась вопр...      0         NaN   \n",
+       "1                                              quiet     10         NaN   \n",
+       "2  stayed days days days know borispol pretty str...      0         NaN   \n",
+       "\n",
+       "   textlen  num_comments flair_text flair_css_class detect  \n",
+       "0      204             0        NaN             NaN     en  \n",
+       "1       13            24        NaN             NaN     en  \n",
+       "2      223             1        NaN             NaN     en  "
+      ]
+     },
+     "execution_count": 53,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#new colum with date and time\n",
+    "df.insert(loc=3, column='created_datetime', value=pd.to_datetime(df['created'], unit='s'))\n",
+    "df.head(3)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 54,
+   "id": "40b11a55-d78a-4aed-8e17-76308450b9ae",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Int64Index([2011, 2011, 2011, 2011, 2011, 2011, 2011, 2011, 2011, 2011,\n",
+      "            ...\n",
+      "            2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022],\n",
+      "           dtype='int64', name='created_datetime', length=16646)\n"
+     ]
+    }
+   ],
+   "source": [
+    "#create new variables years\n",
+    "years = pd.DatetimeIndex(df['created_datetime']).year\n",
+    "print(years)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 55,
+   "id": "07cc83cc-773d-449a-aad5-4d423341fc05",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "126"
+      ]
+     },
+     "execution_count": 55,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#before 2013\n",
+    "df_2013 = df.loc[(years <= 2013), :]\n",
+    "len(df_2013)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3c83b1ca-e8e9-4e75-99a4-8ff3e1028123",
+   "metadata": {},
+   "source": [
+    "## Q. How to add another contraction after 2014?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 56,
+   "id": "2a7e2499-fb0e-4281-964b-ea5ec09692a3",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "16520"
+      ]
+     },
+     "execution_count": 56,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#after 2013 & before 2022\n",
+    "df_b2022 = df.loc[(years <= 2022) & (years >=2013), :]\n",
+    "len(df_b2022)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 57,
+   "id": "b52fbef4-c3a8-4382-b987-bed7c22792b5",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "9383"
+      ]
+     },
+     "execution_count": 57,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#after 2022\n",
+    "df_a2022 = df.loc[(years >= 2022), :]\n",
+    "len(df_a2022)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 59,
+   "id": "bb87bb14-d9c3-457d-afd3-2ba399119c78",
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "SyntaxError",
+     "evalue": "invalid syntax (2332242677.py, line 11)",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;36m  Input \u001b[0;32mIn [59]\u001b[0;36m\u001b[0m\n\u001b[0;31m    x=months_array,\u001b[0m\n\u001b[0m    ^\u001b[0m\n\u001b[0;31mSyntaxError\u001b[0m\u001b[0;31m:\u001b[0m invalid syntax\n"
+     ]
+    }
+   ],
+   "source": [
+    "# visualize data\n",
+    "import matplotlib.pyplot as plt\n",
+    "import seaborn as sns\n",
+    "sns.set_theme()\n",
+    "\n",
+    "sns.set(rc={'figure.figsize': (7, 5)})\n",
+    "\n",
+    "p = sns.histplot(\n",
+    "    ##data=df_2021, ##MJ: changed the dataframe\n",
+    "    data=df_a2022\n",
+    "    x=months_array,\n",
+    "    hue=\"flair_css_class\",\n",
+    "    multiple=\"stack\")\n",
+    "\n",
+    "plt.xticks(rotation=70)\n",
+    "plt.tight_layout()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "1f63fdb3-d057-4e2a-a861-e1d34c94281e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.13"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
